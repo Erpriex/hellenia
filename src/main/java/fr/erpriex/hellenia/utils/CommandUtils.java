@@ -1,4 +1,4 @@
-package fr.erpriex.starterjda.utils;
+package fr.erpriex.hellenia.utils;
 
 public class CommandUtils {
 

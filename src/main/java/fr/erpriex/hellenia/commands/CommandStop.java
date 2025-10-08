@@ -1,13 +1,13 @@
-package fr.erpriex.starterjda.commands;
+package fr.erpriex.hellenia.commands;
 
-import fr.erpriex.starterjda.StarterJDA;
-import fr.erpriex.starterjda.commands.construct.Command;
+import fr.erpriex.hellenia.Hellenia;
+import fr.erpriex.hellenia.commands.construct.Command;
 
 public class CommandStop {
 
-    private StarterJDA main;
+    private Hellenia main;
 
-    public CommandStop(StarterJDA main){
+    public CommandStop(Hellenia main){
         this.main = main;
     }
 

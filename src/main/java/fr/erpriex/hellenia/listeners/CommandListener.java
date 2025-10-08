@@ -1,6 +1,6 @@
-package fr.erpriex.starterjda.listeners;
+package fr.erpriex.hellenia.listeners;
 
-import fr.erpriex.starterjda.StarterJDA;
+import fr.erpriex.hellenia.Hellenia;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.hooks.EventListener;
 
 public class CommandListener implements EventListener {
 
-    private StarterJDA main;
+    private Hellenia main;
 
-    public CommandListener(StarterJDA main) {
+    public CommandListener(Hellenia main) {
         this.main = main;
     }
 

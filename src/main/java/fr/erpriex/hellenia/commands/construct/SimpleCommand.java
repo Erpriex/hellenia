@@ -1,4 +1,4 @@
-package fr.erpriex.starterjda.commands.construct;
+package fr.erpriex.hellenia.commands.construct;
 
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;

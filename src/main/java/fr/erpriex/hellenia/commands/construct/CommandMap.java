@@ -1,6 +1,6 @@
-package fr.erpriex.starterjda.commands.construct;
+package fr.erpriex.hellenia.commands.construct;
 
-import fr.erpriex.starterjda.StarterJDA;
+import fr.erpriex.hellenia.Hellenia;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 
 public class CommandMap {
 
-    private StarterJDA main;
+    private Hellenia main;
 
     private final Map<String, SimpleCommand> commands = new HashMap<>();
     private final String tag;
 
-    public CommandMap(StarterJDA main, String commandPrefix) {
+    public CommandMap(Hellenia main, String commandPrefix) {
         this.main = main;
         this.tag = commandPrefix;
     }
@@ -74,7 +74,7 @@ public class CommandMap {
             .collect(Collectors.toList());
 
         if (!slashCommands.isEmpty()) {
-            main.getJDA().updateCommands().addCommands(slashCommands).queue();
+            main.getJda().updateCommands().addCommands(slashCommands).queue();
             System.out.println("Commandes slash enregistrées: " + slashCommands.size());
         }
     }
@@ -149,7 +149,7 @@ public class CommandMap {
             else if (parameters[i].getType() == Message.class)
                 objects[i] = message;
             else if (parameters[i].getType() == JDA.class)
-                objects[i] = main.getJDA();
+                objects[i] = main.getJda();
             else if (parameters[i].getType() == MessageChannelUnion.class)
                 objects[i] = message.getChannel();
         }
@@ -170,7 +170,7 @@ public class CommandMap {
             } else if (parameters[i].getType() == Guild.class) {
                 objects[i] = event.getGuild();
             } else if (parameters[i].getType() == JDA.class) {
-                objects[i] = main.getJDA();
+                objects[i] = main.getJda();
             } else if (parameters[i].getType() == String.class) {
                 String paramName = parameters[i].getName();
                 OptionMapping option = event.getOption(paramName);
