@@ -3,10 +3,14 @@ package fr.erpriex.hellenia;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import fr.erpriex.hellenia.commands.CommandSettings;
 import fr.erpriex.hellenia.commands.CommandStop;
 import fr.erpriex.hellenia.commands.construct.CommandMap;
 import fr.erpriex.hellenia.db.HibernateUtil;
 import fr.erpriex.hellenia.db.repositories.RepositoriesRegistry;
+import fr.erpriex.hellenia.interactions.buttons.ButtonRegistry;
+import fr.erpriex.hellenia.interactions.buttons.SettingsLogsButton;
+import fr.erpriex.hellenia.listeners.ButtonRouterListener;
 import fr.erpriex.hellenia.listeners.CommandListener;
 import fr.erpriex.hellenia.listeners.ReadyListener;
 import lombok.Getter;
@@ -49,10 +53,15 @@ public class Hellenia implements Runnable {
 
         commandMap = new CommandMap(this, commandPrefix);
 
+        commandMap.registerCommand(new CommandSettings());
         commandMap.registerCommand(new CommandStop(this));
+
+        ButtonRegistry buttons = new ButtonRegistry()
+                .register(new SettingsLogsButton());
 
         jda = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .addEventListeners(new ButtonRouterListener(buttons))
                 .addEventListeners(new CommandListener(this))
                 .addEventListeners(new ReadyListener(this))
                 .build();
