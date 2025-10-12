@@ -12,6 +12,7 @@ import fr.erpriex.hellenia.interactions.buttons.ButtonRegistry;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsButton;
 import fr.erpriex.hellenia.listeners.ButtonRouterListener;
 import fr.erpriex.hellenia.listeners.CommandListener;
+import fr.erpriex.hellenia.listeners.GuildJoinListener;
 import fr.erpriex.hellenia.listeners.ReadyListener;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
@@ -63,6 +64,7 @@ public class Hellenia implements Runnable {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new ButtonRouterListener(buttons))
                 .addEventListeners(new CommandListener(this))
+                .addEventListeners(new GuildJoinListener(this))
                 .addEventListeners(new ReadyListener(this))
                 .build();
 
