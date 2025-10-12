@@ -5,18 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "guilds")
-public class GuildEntity {
+@Table(name = "guilds_settings_logs")
+public class GuildSettingsLogsEntity {
 
     @Id
     @Getter
     @Setter
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "settings_id")
+    @Column(nullable = false)
     @Getter
     @Setter
-    private GuildSettingsEntity settings;
+    private boolean enabled;
 
 }

@@ -1,8 +1,6 @@
 package fr.erpriex.hellenia.db.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +12,11 @@ public class GuildSettingsEntity {
     @Getter
     @Setter
     private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "logs_id")
+    @Getter
+    @Setter
+    private GuildSettingsLogsEntity logs;
 
 }

@@ -6,6 +6,8 @@ public final class EntitiesRegistry {
 
     public static void register(Configuration cfg) {
         cfg.addAnnotatedClass(GuildEntity.class);
+        cfg.addAnnotatedClass(GuildSettingsEntity.class);
+        cfg.addAnnotatedClass(GuildSettingsLogsEntity.class);
     }
 
 }

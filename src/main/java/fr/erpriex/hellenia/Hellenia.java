@@ -50,11 +50,11 @@ public class Hellenia implements Runnable {
         String commandPrefix = jsonObject.get("commandPrefix").getAsString();
 
         sessionFactory = HibernateUtil.getSessionFactory();
-        repositoriesRegistry = new RepositoriesRegistry(sessionFactory);
+        repositoriesRegistry = new RepositoriesRegistry(this, sessionFactory);
 
         commandMap = new CommandMap(this, commandPrefix);
 
-        commandMap.registerCommand(new CommandSettings());
+        commandMap.registerCommand(new CommandSettings(this));
         commandMap.registerCommand(new CommandStop(this));
 
         ButtonRegistry buttons = new ButtonRegistry()

@@ -1,6 +1,9 @@
 package fr.erpriex.hellenia.commands;
 
+import fr.erpriex.hellenia.Hellenia;
 import fr.erpriex.hellenia.commands.construct.Command;
+import fr.erpriex.hellenia.db.entities.GuildEntity;
+import fr.erpriex.hellenia.db.entities.GuildSettingsEntity;
 import fr.erpriex.hellenia.interactions.ComponentIds;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -13,6 +16,12 @@ import java.time.Instant;
 
 public class CommandSettings {
 
+    private Hellenia main;
+
+    public CommandSettings(Hellenia main){
+        this.main = main;
+    }
+
     @Command(name = "settings", description = "Paramètres du bot", type = Command.ExecutorType.USER)
     public void command(SlashCommandInteractionEvent event){
         if (event.getMember() == null
@@ -23,11 +32,13 @@ public class CommandSettings {
             return;
         }
 
+        GuildSettingsEntity settingsDb = main.getRepositoriesRegistry().getGuildSettingsRepository().findById(event.getGuild().getIdLong()).get();
+
         EmbedBuilder settingsMenuEmbed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("\uD83D\uDEE0\uFE0F Paramères")
                 .addBlankField(false)
-                .addField("\uD83D\uDCF0 Logs", "`❌ Désactivé`", true)
+                .addField("\uD83D\uDCF0 Logs", settingsDb.getLogs().isEnabled() ? "`✅ Activé`" : "`❌ Désactivé`", true)
                 .addBlankField(false)
                 .setFooter("Hellenia", event.getJDA().getSelfUser().getAvatarUrl())
                 .setTimestamp(Instant.now());
