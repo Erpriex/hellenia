@@ -2,10 +2,7 @@ package fr.erpriex.hellenia.interactions.buttons;
 
 import fr.erpriex.hellenia.Hellenia;
 import fr.erpriex.hellenia.db.entities.GuildSettingsLogsEntity;
-import fr.erpriex.hellenia.interactions.ComponentIds;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.components.actionrow.ActionRow;
-import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
@@ -34,11 +31,8 @@ public class SettingsLogsToggleButton implements ButtonHandler {
                 .setDescription(settingsLogs.isEnabled() ? "✅ Activé" : "❌ Désactivé")
                 .setTimestamp(Instant.now());
 
-        String toggleId  = ComponentIds.of("settings-logs", "toggle", String.valueOf(event.getUser().getIdLong()));
-        Button toggleButton = settingsLogs.isEnabled() ? Button.danger(toggleId, "❌ Désactiver") : Button.success(toggleId, "✅ Activer");
-
         event.editMessageEmbeds(logsMenuEmbed.build())
-                .setComponents(ActionRow.of(toggleButton))
+                .setComponents(main.getLogsFeature().buildButtonsSettings(settingsLogs))
                 .queue();
     }
 

@@ -18,4 +18,9 @@ public class GuildSettingsLogsEntity {
     @Setter
     private boolean enabled;
 
+    @Column
+    @Getter
+    @Setter
+    private Long channelId;
+
 }

@@ -2,10 +2,7 @@ package fr.erpriex.hellenia.interactions.buttons;
 
 import fr.erpriex.hellenia.Hellenia;
 import fr.erpriex.hellenia.db.entities.GuildSettingsLogsEntity;
-import fr.erpriex.hellenia.interactions.ComponentIds;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.components.actionrow.ActionRow;
-import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 import java.awt.*;
@@ -26,19 +23,10 @@ public class SettingsLogsButton implements ButtonHandler {
     public void handle(ButtonInteractionEvent event, String payload) {
         GuildSettingsLogsEntity settingsLogs = main.getRepositoriesRegistry().getGuildSettingsLogsRepository().findById(event.getGuild().getIdLong()).get();
 
-        EmbedBuilder logsMenuEmbed = new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("\uD83D\uDCF0 Logs")
-                .setDescription(settingsLogs.isEnabled() ? "✅ Activé" : "❌ Désactivé")
-                .addBlankField(false)
-                .setFooter("Hellenia", event.getJDA().getSelfUser().getAvatarUrl())
-                .setTimestamp(Instant.now());
-
-        String toggleId  = ComponentIds.of("settings-logs", "toggle", String.valueOf(event.getUser().getIdLong()));
-        Button toggleButton = settingsLogs.isEnabled() ? Button.danger(toggleId, "❌ Désactiver") : Button.success(toggleId, "✅ Activer");
+        EmbedBuilder logsMenuEmbed = main.getLogsFeature().buildEmbedSettings(settingsLogs);
 
         event.editMessageEmbeds(logsMenuEmbed.build())
-                .setComponents(ActionRow.of(toggleButton))
+                .setComponents(main.getLogsFeature().buildButtonsSettings(settingsLogs))
                 .queue();
     }
 }

@@ -8,13 +8,14 @@ import fr.erpriex.hellenia.commands.CommandStop;
 import fr.erpriex.hellenia.commands.construct.CommandMap;
 import fr.erpriex.hellenia.db.HibernateUtil;
 import fr.erpriex.hellenia.db.repositories.RepositoriesRegistry;
+import fr.erpriex.hellenia.features.LogsFeature;
 import fr.erpriex.hellenia.interactions.buttons.ButtonRegistry;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsButton;
+import fr.erpriex.hellenia.interactions.buttons.SettingsLogsSetChannelButton;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsToggleButton;
-import fr.erpriex.hellenia.listeners.ButtonRouterListener;
-import fr.erpriex.hellenia.listeners.CommandListener;
-import fr.erpriex.hellenia.listeners.GuildJoinListener;
-import fr.erpriex.hellenia.listeners.ReadyListener;
+import fr.erpriex.hellenia.interactions.selects.SelectRegistry;
+import fr.erpriex.hellenia.interactions.selects.SettingsLogsSetChannelSelect;
+import fr.erpriex.hellenia.listeners.*;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -44,6 +45,9 @@ public class Hellenia implements Runnable {
     @Getter
     private RepositoriesRegistry repositoriesRegistry;
 
+    @Getter
+    private LogsFeature logsFeature;
+
     public Hellenia() throws InterruptedException {
         Gson gson = new GsonBuilder().create();
         JsonObject jsonObject = gson.fromJson(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("config.json")), JsonObject.class);
@@ -60,7 +64,11 @@ public class Hellenia implements Runnable {
 
         ButtonRegistry buttons = new ButtonRegistry()
                 .register(new SettingsLogsButton(this))
+                .register(new SettingsLogsSetChannelButton())
                 .register(new SettingsLogsToggleButton(this));
+
+        SelectRegistry selects = new SelectRegistry()
+                .register(new SettingsLogsSetChannelSelect(this));
 
         jda = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
@@ -68,7 +76,10 @@ public class Hellenia implements Runnable {
                 .addEventListeners(new CommandListener(this))
                 .addEventListeners(new GuildJoinListener(this))
                 .addEventListeners(new ReadyListener(this))
+                .addEventListeners(new SelectRouterListener(selects))
                 .build();
+
+        logsFeature = new LogsFeature(this);
 
         jda.awaitReady();
 
