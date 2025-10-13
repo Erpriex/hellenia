@@ -2,8 +2,6 @@ package fr.erpriex.hellenia.interactions.selects;
 
 import fr.erpriex.hellenia.Hellenia;
 import fr.erpriex.hellenia.db.entities.GuildSettingsLogsEntity;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 
 import java.util.List;
