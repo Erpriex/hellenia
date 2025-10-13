@@ -10,6 +10,7 @@ import fr.erpriex.hellenia.db.HibernateUtil;
 import fr.erpriex.hellenia.db.repositories.RepositoriesRegistry;
 import fr.erpriex.hellenia.interactions.buttons.ButtonRegistry;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsButton;
+import fr.erpriex.hellenia.interactions.buttons.SettingsLogsToggleButton;
 import fr.erpriex.hellenia.listeners.ButtonRouterListener;
 import fr.erpriex.hellenia.listeners.CommandListener;
 import fr.erpriex.hellenia.listeners.GuildJoinListener;
@@ -58,7 +59,8 @@ public class Hellenia implements Runnable {
         commandMap.registerCommand(new CommandStop(this));
 
         ButtonRegistry buttons = new ButtonRegistry()
-                .register(new SettingsLogsButton());
+                .register(new SettingsLogsButton(this))
+                .register(new SettingsLogsToggleButton(this));
 
         jda = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)

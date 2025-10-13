@@ -2,7 +2,6 @@ package fr.erpriex.hellenia.commands;
 
 import fr.erpriex.hellenia.Hellenia;
 import fr.erpriex.hellenia.commands.construct.Command;
-import fr.erpriex.hellenia.db.entities.GuildEntity;
 import fr.erpriex.hellenia.db.entities.GuildSettingsEntity;
 import fr.erpriex.hellenia.interactions.ComponentIds;
 import net.dv8tion.jda.api.EmbedBuilder;

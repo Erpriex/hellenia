@@ -6,32 +6,32 @@ import fr.erpriex.hellenia.interactions.ComponentIds;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.buttons.Button;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
-import java.awt.*;
 import java.time.Instant;
 
-public class SettingsLogsButton implements ButtonHandler {
+public class SettingsLogsToggleButton implements ButtonHandler {
 
     private Hellenia main;
 
-    public SettingsLogsButton(Hellenia main) {
+    public SettingsLogsToggleButton(Hellenia main) {
         this.main = main;
     }
 
-    @Override public String namespace() { return "settings"; }
-    @Override public String action() { return "logs"; }
+    @Override public String namespace() { return "settings-logs"; }
+    @Override public String action() { return "toggle"; }
 
     @Override
     public void handle(ButtonInteractionEvent event, String payload) {
         GuildSettingsLogsEntity settingsLogs = main.getRepositoriesRegistry().getGuildSettingsLogsRepository().findById(event.getGuild().getIdLong()).get();
+        settingsLogs.setEnabled(!settingsLogs.isEnabled());
+        main.getRepositoriesRegistry().getGuildSettingsLogsRepository().update(settingsLogs);
 
-        EmbedBuilder logsMenuEmbed = new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("\uD83D\uDCF0 Logs")
+        MessageEmbed previousEmbed = event.getMessage().getEmbeds().get(0);
+
+        EmbedBuilder logsMenuEmbed = new EmbedBuilder(previousEmbed)
                 .setDescription(settingsLogs.isEnabled() ? "✅ Activé" : "❌ Désactivé")
-                .addBlankField(false)
-                .setFooter("Hellenia", event.getJDA().getSelfUser().getAvatarUrl())
                 .setTimestamp(Instant.now());
 
         String toggleId  = ComponentIds.of("settings-logs", "toggle", String.valueOf(event.getUser().getIdLong()));
@@ -41,4 +41,5 @@ public class SettingsLogsButton implements ButtonHandler {
                 .setComponents(ActionRow.of(toggleButton))
                 .queue();
     }
+
 }
