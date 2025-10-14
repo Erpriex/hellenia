@@ -8,7 +8,7 @@ import fr.erpriex.hellenia.commands.CommandStop;
 import fr.erpriex.hellenia.commands.construct.CommandMap;
 import fr.erpriex.hellenia.db.HibernateUtil;
 import fr.erpriex.hellenia.db.repositories.RepositoriesRegistry;
-import fr.erpriex.hellenia.features.LogsFeature;
+import fr.erpriex.hellenia.managers.LogsManager;
 import fr.erpriex.hellenia.interactions.buttons.ButtonRegistry;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsButton;
 import fr.erpriex.hellenia.interactions.buttons.SettingsLogsSetChannelButton;
@@ -46,7 +46,7 @@ public class Hellenia implements Runnable {
     private RepositoriesRegistry repositoriesRegistry;
 
     @Getter
-    private LogsFeature logsFeature;
+    private LogsManager logsManager;
 
     public Hellenia() throws InterruptedException {
         Gson gson = new GsonBuilder().create();
@@ -71,15 +71,23 @@ public class Hellenia implements Runnable {
                 .register(new SettingsLogsSetChannelSelect(this));
 
         jda = JDABuilder.createDefault(token)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .enableIntents(
+                        GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_VOICE_STATES,
+                        GatewayIntent.MESSAGE_CONTENT
+                )
                 .addEventListeners(new ButtonRouterListener(buttons))
                 .addEventListeners(new CommandListener(this))
+                .addEventListeners(new GuildInviteCreateListener(this))
                 .addEventListeners(new GuildJoinListener(this))
+                .addEventListeners(new GuildMemberJoinListener(this))
+                .addEventListeners(new GuildMemberRemoveListener(this))
+                .addEventListeners(new GuildVoiceUpdateListener(this))
                 .addEventListeners(new ReadyListener(this))
                 .addEventListeners(new SelectRouterListener(selects))
                 .build();
 
-        logsFeature = new LogsFeature(this);
+        logsManager = new LogsManager(this);
 
         jda.awaitReady();
 
@@ -89,7 +97,7 @@ public class Hellenia implements Runnable {
     public static void main(String[] args) {
         try {
             Hellenia hellenia = new Hellenia();
-            new Thread(hellenia, "bot").start();
+            new Thread(hellenia, "Hellenia").start();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package fr.erpriex.hellenia.interactions.buttons;
 
 import fr.erpriex.hellenia.Hellenia;
-import fr.erpriex.hellenia.db.entities.GuildSettingsLogsEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -21,18 +20,17 @@ public class SettingsLogsToggleButton implements ButtonHandler {
 
     @Override
     public void handle(ButtonInteractionEvent event, String payload) {
-        GuildSettingsLogsEntity settingsLogs = main.getRepositoriesRegistry().getGuildSettingsLogsRepository().findById(event.getGuild().getIdLong()).get();
-        settingsLogs.setEnabled(!settingsLogs.isEnabled());
-        main.getRepositoriesRegistry().getGuildSettingsLogsRepository().update(settingsLogs);
+        Long guildId = event.getGuild().getIdLong();
+        main.getLogsManager().setEnabled(guildId, !main.getLogsManager().isEnabled(guildId));
 
         MessageEmbed previousEmbed = event.getMessage().getEmbeds().get(0);
 
         EmbedBuilder logsMenuEmbed = new EmbedBuilder(previousEmbed)
-                .setDescription(settingsLogs.isEnabled() ? "✅ Activé" : "❌ Désactivé")
+                .setDescription(main.getLogsManager().isEnabled(guildId) ? "✅ Activé" : "❌ Désactivé")
                 .setTimestamp(Instant.now());
 
         event.editMessageEmbeds(logsMenuEmbed.build())
-                .setComponents(main.getLogsFeature().buildButtonsSettings(settingsLogs))
+                .setComponents(main.getLogsManager().buildButtonsSettings(guildId))
                 .queue();
     }
 
