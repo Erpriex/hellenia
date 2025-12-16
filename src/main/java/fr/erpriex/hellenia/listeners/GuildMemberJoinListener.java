@@ -31,7 +31,7 @@ public class GuildMemberJoinListener implements EventListener {
         if(main.getLogsManager().canUse(guildId)) {
             User user = event.getUser();
             EmbedBuilder logEmbed = new EmbedBuilder()
-                    .setColor(Color.CYAN)
+                    .setColor(Color.YELLOW)
                     .setTitle("Nouvel utilisateur")
                     .setDescription("<@" + user.getId() + "> a rejoint le Discord \uD83D\uDC4B")
                     .setThumbnail(user.getAvatarUrl())

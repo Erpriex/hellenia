@@ -34,7 +34,7 @@ public class GuildVoiceUpdateListener implements EventListener {
             String descriptionEmbed = getDescriptionEmbed(event, member);
 
             EmbedBuilder logEmbed = new EmbedBuilder()
-                    .setColor(Color.CYAN)
+                    .setColor(Color.YELLOW)
                     .setTitle("Activité vocale")
                     .setDescription(descriptionEmbed)
                     .setImage("https://i.imgur.com/1fIa6Ob.png")

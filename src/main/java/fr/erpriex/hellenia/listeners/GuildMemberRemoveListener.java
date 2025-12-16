@@ -32,7 +32,7 @@ public class GuildMemberRemoveListener implements EventListener {
         if(main.getLogsManager().canUse(guildId)) {
             User user = event.getUser();
             EmbedBuilder logEmbed = new EmbedBuilder()
-                    .setColor(Color.CYAN)
+                    .setColor(Color.YELLOW)
                     .setTitle("Départ utilisateur")
                     .setDescription("<@" + user.getId() + "> a quitté le Discord \uD83D\uDEAA")
                     .setThumbnail(user.getAvatarUrl())
