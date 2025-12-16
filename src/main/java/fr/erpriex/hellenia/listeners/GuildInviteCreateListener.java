@@ -33,9 +33,11 @@ public class GuildInviteCreateListener implements EventListener {
             Invite invite = event.getInvite();
             User inviter = invite.getInviter();
             EmbedBuilder logEmbed = new EmbedBuilder()
-                    .setColor(Color.YELLOW)
-                    .setAuthor(inviter.getName(), null, inviter.getAvatarUrl())
-                    .setDescription("a créé une invitation")
+                    .setColor(Color.CYAN)
+                    .setTitle("Invitation créée")
+                    .setDescription("<@" + inviter.getId() + "> a créé une invitation \uD83D\uDD17")
+                    .setThumbnail(inviter.getAvatarUrl())
+                    .setImage("https://i.imgur.com/1fIa6Ob.png")
                     .addField("Code", "`" + invite.getCode() + "`", true)
                     .addField("URL", invite.getUrl(), true)
                     .addField("Salon", event.getChannel().getAsMention(), true)

@@ -31,13 +31,13 @@ public class GuildMemberJoinListener implements EventListener {
         if(main.getLogsManager().canUse(guildId)) {
             User user = event.getUser();
             EmbedBuilder logEmbed = new EmbedBuilder()
-                    .setColor(Color.YELLOW)
-                    .setAuthor(user.getName(), null, user.getAvatarUrl())
-                    .setDescription("a rejoint le Discord")
+                    .setColor(Color.CYAN)
+                    .setTitle("Nouvel utilisateur")
+                    .setDescription("<@" + user.getId() + "> a rejoint le Discord \uD83D\uDC4B")
+                    .setThumbnail(user.getAvatarUrl())
+                    .setImage("https://i.imgur.com/1fIa6Ob.png")
                     .addField("ID", "`" + user.getId() + "`", true)
-                    .addField("Mention", "<@" + user.getId() + ">", true)
-                    .addField("Compte créé le", TimeUtils.formatHumanDate(user.getTimeCreated()), true)
-                    .addField("Bot", user.isBot() ? "Oui" : "Non", true)
+                    .addField("Compte créé le", "<t:" + user.getTimeCreated().toEpochSecond() + ":f>", true)
                     .setTimestamp(Instant.now());
 
             event.getGuild().getTextChannelById(main.getLogsManager().getChannelId(guildId)).sendMessageEmbeds(logEmbed.build()).queue();
