@@ -26,7 +26,7 @@ public class GenericRepository<T, ID extends Serializable> {
 
     public Optional<T> findById(ID id) {
         try (Session s = sf.openSession()) {
-            return Optional.ofNullable(s.get(type, id));
+            return Optional.ofNullable(s.find(type, id));
         }
     }
 
@@ -42,7 +42,7 @@ public class GenericRepository<T, ID extends Serializable> {
     public void deleteById(ID id) {
         try (Session s = sf.openSession()) {
             var tx = s.beginTransaction();
-            T ref = s.get(type, id);
+            T ref = s.find(type, id);
             if (ref != null) s.remove(ref);
             tx.commit();
         }
